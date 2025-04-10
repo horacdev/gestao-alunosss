@@ -1,0 +1,47 @@
+:host {
+  display: block;
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+
+  h1 {
+    font-size: 1.8rem;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .search-input {
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+  }
+}
+
+table {
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  background: #9debde36;
+}
+
+th.mat-header-cell, td.mat-cell {
+  padding: 12px 16px;
+  white-space: nowrap;
+}
+
+.actions-cell {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+
+  

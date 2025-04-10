@@ -76,11 +76,21 @@ export class StudentListComponent {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'name': return compare(a.name, b.name, isAsc);
-        case 'age': return compare(a.age, b.age, isAsc);
+        case 'age': return compare(this.calculateAge(a.birthDate), this.calculateAge(b.birthDate), isAsc);
         default: return 0;
       }
     });
   }
+  calculateAge(birthDate: Date): number {
+    const today = new Date();
+    let age = today.getFullYear() - new Date(birthDate).getFullYear();
+    const m = today.getMonth() - new Date(birthDate).getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < new Date(birthDate).getDate())) {
+      age--;
+    }
+    return age;
+  }
+  
 
   deleteStudent(student: Student) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {

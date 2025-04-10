@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 export interface Student {
   id: number;
   name: string;
-  age: number;
+  birthDate: Date;
   course: string;
   period: string;
 }
@@ -14,25 +14,28 @@ export interface Student {
 })
 export class StudentService {
   private students = new BehaviorSubject<Student[]>([
-    { id: 1, name: 'João Victor', age: 22, course: 'Ciência da computação', period: 'Noturno' },
-    { id: 2, name: 'Gustavo', age: 20, course: 'Ciência da computação', period: 'Noturno' },
-    { id: 2, name: 'Horácio', age: 21, course: 'Ciência da computação', period: 'Noturno' },
-    { id: 2, name: 'Marcely', age: 22, course: 'Ciência da computação', period: 'Noturno' }
+    { id: 1, name: 'João Victor', birthDate: new Date(2003,0,1), course: 'Ciência da computação', period: 'Noturno' },
+    { id: 2, name: 'Gustavo', birthDate: new Date(2002,0,1), course: 'Ciência da computação', period: 'Noturno' },
+    { id: 3, name: 'Lucas', birthDate: new Date(2007,0,1), course: 'Ciência da computação', period: 'Noturno' },
+    { id: 4, name: 'Marcely', birthDate: new Date(2001,0,1), course: 'Ciência da computação', period: 'Noturno' }
   ]);
-
-  private currentId = 3;
 
   getStudents() {
     return this.students.asObservable();
   }
 
   addStudent(student: Omit<Student, 'id'>) {
-    const newStudent = { ...student, id: this.currentId++ };
-    this.students.next([...this.students.value, newStudent]);
+    const currentStudents = this.students.value;
+    const maxId = currentStudents.length ? Math.max(...currentStudents.map(s => s.id)) : 0;
+    const newStudent: Student = {
+      ...student,
+      id: maxId + 1
+    };
+    this.students.next([...currentStudents, newStudent]);
   }
 
   updateStudent(updatedStudent: Student) {
-    const students = this.students.value.map(s => 
+    const students = this.students.value.map(s =>
       s.id === updatedStudent.id ? updatedStudent : s
     );
     this.students.next(students);
